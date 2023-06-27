@@ -1,0 +1,8 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+label {
+    display: inline-block;
+    padding-top: 50px !important;
+}
