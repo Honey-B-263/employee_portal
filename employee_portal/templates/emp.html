@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+  <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <title>Employee Page</title>
+  <style>
+   
+    header {
+      background-color: #4F328C;
+      color: #f8f8f8;
+      padding: 20px;
+    }
+    p {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+    
+
+    .profile-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      /* margin-right: 20px; */
+    }
+
+    .info-section {
+      background-color: #a2a7ac;
+      color: #f8f8f8;
+      padding: 20px;
+      /* margin-bottom: 20px; */
+    }
+
+    .attendance-section, .announcement-section {
+      display: flex;
+      /* justify-content: space-between; */
+      /* background-color: #f8f8f8; */
+      padding: 20px;
+      /* margin-bottom: 20px; */
+    }
+    tabl
+    
+
+    .chat-todo-container {
+      display: flex;
+    }
+
+    .chat-section, .todo-section {
+      flex: 1;
+      height: 100%;
+      /* background-color: #f8f8f8; */
+      /* padding: 20px; */
+      /* margin-bottom: 20px; */
+    }
+
+   
+
+    .todo-item input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      /* margin-bottom: 20px; */
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #4F5F73;
+    }
+
+    th {
+      background-color: #4F5F73;
+      color: #f8f8f8;
+    }
+
+    td.image-cell {
+      padding: 0;
+      text-align: center;
+    }
+
+    td.image-cell img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    @media (min-width: 1200px){
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1140px;
+}
+    }
+   
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="profile-section">
+        <img src="data:image/jpeg;base64,{{ students.Image }}" alt="Profile Picture" class="profile-picture mr-2">
+       <div class="px-2">
+        <h2 class="mb-1">{{ students.Name }}</h2>
+        <h5>Email: {{ students.Email }}</h5>
+      <h5>Phone: {{ students.Phone }}</h5>
+       </div>
+      </div>
+    </header>
+  
+    <div class="info-section">
+      <h2>Work Information</h2>
+      <p>Position: {{ students.Post }}</p>
+      <p>Department: {{ students.Department }}</p>
+    </div>
+  
+    <!-- <div class="info-section">
+      <h2>Personal Information</h2>
+      <p>Email: {{ students.Email }}</p>
+      <p>Phone: {{ students.Phone }}</p>
+    </div> -->
+  
+  <div class="attendance-section row">
+    <div class="col-4 attendance-box">
+      <div class="card">
+        <div class="card-body">
+      <h2>Attendance</h2>
+        <button id="checkInBtn" class="btn btn-outline-success"
+        onclick="checkIn()" value="checkin" name="chckInBtn">Check In</button>
+      <button class="btn btn-outline-danger" id="checkOutBtn" onclick="checkOut()" disabled>Check Out</button>
+      <p id="result"></p>
+      </div>
+      </div>
+    </div>
+    <div class=" col-4 announcement-box">
+      <div class="card">
+        <div class="card-body">
+          <h2>Announcements</h2>
+      <ol id="announcementsList">
+        {% for i in students.ann %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ol>
+        </div>
+      </div>
+    </div>
+    <div class=" col-4 todo-section">
+      <div class="card">
+        <div class="card-body">
+      <h2>To-Do List</h2>
+      <textarea class="form-control mb-2" id="todoInput" rows="3"></textarea>
+     
+    
+      <div class="row">
+        
+        <div class="col-12 text-right mb-2"> <button class="btn btn-outline-success " id="addTaskBtn" onclick="addTask()">Add Task</button></div>
+      <div class="col-12 mb-2"> <span id="todoList mb-2 bg-light" class=""><span>{% for i in task %}</span>
+      {{ i[0] }}   <button class="btn btn-sm  btn-outline-danger" name="{{ i[0] }}" onclick="deletetask(name)">Remove</button>
+      {% endfor %}</span></div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Image</th>
+        <th>Check-in Time</th>
+        <th>Check-out Time</th>
+        <th>Total Duration</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="attendanceTable"></tbody>
+  </table>
+  
+  
+  
+  
+   
+   
+  
+    <div class="chat-todo-container">
+      <!-- <div class="chat-section">
+        <h2>Live Chat</h2>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Type your message">
+        <button onclick="sendMessage()">Send</button>
+      </div> -->
+  
+      <!-- <div class="todo-section">
+        <h2>To-Do List</h2>
+        <ul id="todoList">{% for i in task %}
+          <li class="mb-2" >{{ i[0] }}   <button name="{{ i[0] }}" onclick="deletetask(name)">Remove</button></li>
+        {% endfor %}</ul>
+      
+        <input type="text" id="todoInput" placeholder="Add a task">
+        <button id="addTaskBtn" onclick="addTask()">Add Task</button>
+      </div> -->
+    </div>
+
+  </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script>
+function checkIn() {
+  
+  document.getElementById('checkInBtn').disabled = true;
+  document.getElementById('checkOutBtn').disabled = false;
+
+ 
+  var date = new Date().toLocaleDateString();
+  var checkInTime = new Date().toLocaleTimeString();
+  var attendanceTable = document.getElementById('attendanceTable');
+  var row = attendanceTable.insertRow(-1);
+  row.innerHTML = '<td>' + date + '</td>' + '<td class="image-cell"><img src=data:image/jpeg;base64,{{students.Image}} alt="Profile Picture"></td>'+
+                  '<td>' + checkInTime + '</td>' +
+                  '<td></td>' +
+                  '<td></td>' +
+                  '<td>Pending</td>';
+  $.ajax({type:"GET",
+          url:"/checkin",
+          contentType:"application/json;charset=utf-8",
+          success:function(re){
+            alert(re.result)
+            $("#result").html(re.result)
+          }
+        })
+  
+}
+
+
+window.onload=function(){
+     arr=[]
+};
+
+function deletetask(value)
+{
+  data={task:value,Email:"{{ students.Email }}"}
+  data=JSON.stringify(data)  // WARNING: For POST requests, body is set to null by browsers.
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  xhr.addEventListener("readystatechange", function() {
+      if(this.readyState === 4) {
+        console.log(this.responseText);
+      }
+    });
+  debugger
+  xhr.open("POST","http://127.0.0.1:5001/deletetask");
+  xhr.setRequestHeader("Content-Type", "text/plain");
+  xhr.send(data);
+  location.reload()
+  
+}
+
+$("#addTaskBtn").click(function(){
+  task=$("#todoInput").val()
+  arr.push(task)
+  a=arr.slice(-1)
+  Email="{{ students.Email }}"
+  header={}
+  data={task:a,Email:Email}
+  data=JSON.stringify(data)  // WARNING: For POST requests, body is set to null by browsers.
+var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  xhr.addEventListener("readystatechange", function() {
+    if(this.readyState === 4) {
+      console.log(this.responseText);
+    }
+  });
+  xhr.open("POST", "http://127.0.0.1:5001/todo-task");
+  xhr.setRequestHeader("Content-Type", "text/plain");
+
+  xhr.send(data);
+  $("#todoInput").val("")
+  location.reload()
+})
+function checkOut() {
+
+
+
+  document.getElementById('checkInBtn').disabled = false;
+  document.getElementById('checkOutBtn').disabled = true;
+
+  var checkOutTime = new Date().toLocaleTimeString();
+  var lastRow = document.getElementById('attendanceTable').rows.length - 1;
+  var row = document.getElementById('attendanceTable').rows[lastRow];
+  row.cells[3].textContent = checkOutTime;
+  var checkInTime = row.cells[2].textContent;
+  alert(typeof(new Date(checkInTime)))
+  var duration = (new Date(checkOutTime) - new Date(checkInTime)) / 1000; 
+  alert(duration)
+  row.cells[4].textContent = duration + 's';
+  row.cells[5].textContent = 'Completed';
+}
+
+    function sendMessage() {
+      var messageInput = document.getElementById('chatInput');
+      var message = messageInput.value;
+
+      var chatMessages = document.getElementById('chatMessages');
+      chatMessages.innerHTML += '<p>' + message + '</p>';
+
+      messageInput.value = '';
+    }
+    // var arr=[]
+    // for(i of "{{ students.ann }}"){
+    //   arr.push(i)
+    // }
+    // var announcements = arr;
+    // alert(arr)
+
+    // var announcementsList = document.getElementById('announcementsList');
+    // announcements.forEach(function (announcement) {
+    //   var listItem = document.createElement('li');
+    //   listItem.textContent = announcement;
+    //   announcementsList.appendChild(listItem);
+    // });
+
+    // function addTask() {
+    //   location.reload()
+      // var todoInput = document.getElementById('todoInput');
+      // var task = todoInput.value;
+
+      // var todoList = document.getElementById('todoList');
+      // var listItem = document.createElement('li');
+      // // var checkbox = document.createElement('input');
+      // // checkbox.type = 'checkbox';
+      // // checkbox.onclick = markCompleted;
+      // var taskText = document.createElement('span');
+      // taskText.textContent = task;
+      // // listItem.appendChild(checkbox);
+      // listItem.appendChild(taskText);
+      // todoList.appendChild(listItem);
+    // }
+
+    function markCompleted() {
+      var listItem = this.parentNode;
+      if (this.checked) {
+        listItem.classList.add('completed');
+      } else {
+        listItem.classList.remove('completed');
+      }
+    }
+  </script>
+  
+</body>
+</html>

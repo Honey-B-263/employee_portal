@@ -1,0 +1,389 @@
+{% extends 'base.html' %} {% block title %} Admin {% endblock %} {% block body %}
+{% include 'header.html' %}
+<style>
+  .profile-picture{
+    border-radius: 50%;
+    height: 10%;
+  }
+  .bg-purpel{
+    background-color: #4F328C;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class=" d-flex justify-content-between  p-3 bg-purpel text-white">
+        <h3>Manage Employees</h3>
+        <div>
+          <a href="/insert"
+          
+         
+            type="button"
+            class="btn  btn-light pt-2 mx-2 justify-content-end"
+            data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+          >
+            Add New Employee
+          </a
+        >
+        <a href="#" type="button"  class="btn btn-light pt-2"
+ data-bs-toggle="modal" data-bs-target="#exampleModal1">
+            Add Announcement </a>
+        </div>
+      </div>
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div class="alert alert-success alert-dismissable" role="alert">
+        {{message}}
+        <button
+          type="button"
+          class="close justify-content-right"
+          data-bs-dismiss="alert"
+          aria-label="close"
+        >
+          <span class="justify-content-between" aria-hidden="true">x</span>
+        </button>
+      </div>
+
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Add New Employee</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="{{url_for('insert')}}" method="POST">
+              <div class="form-group mb-2">
+                <label for="exampleInputImage1">Image:</label>
+               <div> <input type="file" class="form-control" name="files" id="files" /></div>
+              </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputName1">Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="Name"
+                  id="exampleInputName1"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputEmail1">Email:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="Email"
+                  id="exampleInputEmail1"
+                  placeholder="Email"
+                />
+              </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputDepartment1">Department:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="Department"
+                  id="exampleInputDepartment1"
+                  placeholder="Department"
+                />
+              </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputPost1">Post:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="Post"
+                  id="exampleInputPost1"
+                  placeholder="Post"
+                />
+                </div>
+              <div class="form-group mb-2">
+                <label for="exampleInputPhone1">Phone:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="Phone"
+                  id="exampleInputPhone1"
+                  placeholder="Phone"
+                />
+              </div>
+              <hr>
+              <input type="text" name="base" style="display: none" id="base64" />
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 p-4">
+      <table class="table table-border">
+        <tr>
+          <th>id</th>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Post</th>
+          <th>Phone</th>
+          <th>Action</th>
+        </tr>
+        {% for row in students %}
+        <form method="post">
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+              <img
+                src="data:image/jpeg;base64,{{row.Image}}"
+                style="width: 100px; height: 100px"
+                alt="Profile Picture" class="profile-picture"
+              />
+            </td>
+            <td>{{row.Name}}</td>
+            <td>{{row.Email}}</td>
+            <td>{{row.Department}}</td>
+            <td>{{row.Post}}</td>
+            <td>{{row.Phone}}</td>
+            <td>
+              <a
+                href="/update/{{row.id}}"
+                class="btn btn-warning btn-xs"
+                data-bs-toggle="modal"
+                data-bs-target="#modaledit{{row.id}}"
+                >Edit</a
+              >
+              <a class="btn btn-danger btn-xs" href="/delete/{{ row.id }}">
+                Delete
+              </a>
+            </td>
+          </tr>
+        </form>
+
+        <div
+          class="modal fade"
+          id="modaledit{{row.id}}"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Update Information
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form action="/update/{{row.id}}" method="post">
+                  <div class="form-group">
+                    <label>Image</label><br>
+                   <div>
+                    <input
+                    type="file"
+                    class="form-control fileUpdate"
+                    name="files"
+                    id="files"
+                  />
+                   </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Name"
+                      value="{{row.Name}}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Email:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Email"
+                      value="{{row.Email}}"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Department:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Department"
+                      value="{{row.Department}}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Post:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="Post"
+                      value="{{row.Post}}"
+                    />
+                    </div>
+                  <div class="form-group">
+                    <label>Phone:</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="Phone"
+                      value="{{row.Phone}}"
+                    />
+                  </div>
+
+                  <div class="form-group py-3 text-end">
+                    <button class="btn btn-primary" type="submit">
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          </div>
+
+        
+
+
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModal1">Add Announcement</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                    <label>Announcement:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="announcement"
+                    />
+                  </div>
+
+
+                  <div class="form-group py-3 text-end">
+                    <button class="btn btn-primary" onclick="annoc()" type="submit">
+                      Add Announcement
+                    </button>
+                  </div>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </table>
+    </div>
+    <div class="attendance-section row mb-5">
+      
+      <div class=" col-6 announcement-box">
+        <div class="card">
+          <div class="card-body">
+            <h2>Add Announcements</h2>
+        <textarea class="form-control mb-2" id="todoInput" rows="3"></textarea>
+       
+      
+        <div class="row">
+          
+          <div class="col-12 text-right mb-2"> <button class="btn btn-outline-success " id="addTaskBtn" onclick="addTask()">Add </button></div>
+        <div class="col-12 mb-2"> <span id="todoList mb-2 bg-light" class=""><span></span></span></div>
+        </div>
+          </div>
+        </div>
+      </div>
+      <div class=" col-6 todo-section">
+        <div class="card">
+          <div class="card-body">
+        <h2>To-Do List</h2>
+        <textarea class="form-control mb-2" id="todoInput" rows="3"></textarea>
+       
+      
+        <div class="row">
+          
+          <div class="col-12 text-right mb-2"> <button class="btn btn-outline-success " id="addTaskBtn" onclick="addTask()">Add Task</button></div>
+        <div class="col-12 mb-2"> <span id="todoList mb-2 bg-light" class=""><span></span></span></div>
+        </div>
+      </div>
+  
+    </div>
+    
+  
+  </div>
+    </div>
+
+
+  </div>
+</div>
+
+<script>
+  // debugger
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    document
+      .getElementById("files")
+      .addEventListener("change", handleFileSelect, false);
+  } else {
+    alert("The File APIs are not fully supported in this browser.");
+  }
+
+  function handleFileSelect(evt) {
+    var f = evt.target.files[0]; // FileList object
+    var reader = new FileReader();
+    // Closure to capture the file information.
+    reader.onload = (function (theFile) {
+      return function (e) {
+        var binaryData = e.target.result;
+        //Converting Binary Data to base 64
+        var base64String = window.btoa(binaryData);
+        //showing file converted to base64
+        document.getElementById("base64").value = base64String;
+      };
+    })(f);
+    // Read in the image file as a data URL.
+    reader.readAsBinaryString(f);
+  }
+  
+  function annoc(){
+    var announcement = document.getElementById("announcement").value;
+    var data =JSON.stringify({announcement:announcement})
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function() {
+      if(this.readyState === 4) {
+        console.log(this.responseText);
+      }
+    });
+
+    xhr.open("POST", "http://127.0.0.1:5001/announcements");
+    xhr.setRequestHeader("Content-Type", "text/plain");
+
+    xhr.send(data);
+  }
+    // $.ajax({
+    //   type:'POST',
+    //   url:"http://127.0.0.1:5001/announcements",
+    //   data:data,
+    //   dataType:"json",
+    //   contentType:"text/plain",
+    //   success:function(re){
+    //     alert(re);
+    //   }
+    // })
+</script>
+{% endblock %}
