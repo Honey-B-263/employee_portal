@@ -1,6 +1,6 @@
 # employee_portal
 
-It's a multi-user fullsack project.
+It's a multi-user fullstack project.
 
 <img width="959" alt="image" src="https://github.com/Honey-B-263/employee_portal/assets/80630634/3b5710bc-dfca-4869-be39-55c31bb27bd2">
 
