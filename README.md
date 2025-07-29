@@ -50,6 +50,7 @@ The application integrates **facial recognition** using **OpenCV** and deep lear
 - Admins and employees are redirected to their respective dashboards.
 <img width="959" alt="image" src="https://github.com/Honey-B-263/employee_portal/assets/80630634/3b5710bc-dfca-4869-be39-55c31bb27bd2">
 ---
+
 ### 👩‍💼 Employee Dashboard
 - **Face Recognition Attendance**: Employees can mark their attendance using their webcam.
 - **To-Do List**: Create, update, and delete tasks for daily planning.
