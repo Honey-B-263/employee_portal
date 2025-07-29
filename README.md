@@ -48,7 +48,8 @@ The application integrates **facial recognition** using **OpenCV** and deep lear
 ### 🔐 Login System
 - Secure login page with role-based authentication.
 - Admins and employees are redirected to their respective dashboards.
-<img width="959" alt="image" src="https://github.com/Honey-B-263/employee_portal/assets/80630634/3b5710bc-dfca-4869-be39-55c31bb27bd2">
+<img width="1249" height="526" alt="image" src="https://github.com/user-attachments/assets/654c72d5-ed3b-42a3-9cbe-6848f02bdee0" />
+
 ---
 
 ### 👩‍💼 Employee Dashboard
@@ -58,6 +59,8 @@ The application integrates **facial recognition** using **OpenCV** and deep lear
 - **Announcements**: View messages and updates broadcasted by the admin.
 - **Personal Details**: Access to work profile, contact information, and attendance history.
 <img width="959" alt="image" src="https://github.com/Honey-B-263/employee_portal/assets/80630634/310f0eab-d9c6-48ee-9e1d-2cf696a6bd9e">
+
+
 ---
 
 ### 👨‍💼 Admin Dashboard
@@ -65,6 +68,8 @@ The application integrates **facial recognition** using **OpenCV** and deep lear
 - **Announcement Module**: Post announcements that instantly reflect across all employee dashboards.
 - **Full Access Control**: View all employee information and attendance logs.
 <img width="960" alt="image" src="https://github.com/Honey-B-263/employee_portal/assets/80630634/a7b2f8b0-2073-4c79-a435-7fc8263eafd8">
+
+
 ---
 
 
